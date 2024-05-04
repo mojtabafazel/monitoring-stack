@@ -25,6 +25,10 @@ apt install  zabbix-frontend-php mariadb-server zabbix-nginx-conf zabbix-sql-scr
 cp  conf/zabbix_server.conf  /etc/zabbix/
 cp /etc/zabbix/nginx.conf /etc/nginx/sites-enabled/zabbix.conf
 chown -R zabbix:zabbix  /etc/zabbix/
+[remove the default file in /etc/nginx/site-enable/default]
+[change the port in zabbix.conf and listen 80]
+service restart nginx
+service status nginx
 echo -n "[Unit]
 Description=Zabbix Server
 After=syslog.target network.target mysql.service
@@ -56,7 +60,7 @@ EOF
 
  zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix 
  echo "DBPassword=PackopsZBX2022" >> /etc/zabbix/zabbix_server.conf
-
+[uncomment ther DBPassword in zabbix_server.conf]
 systemctl restart zabbix-server 
 systemctl restart nginx
 systemctl restart zabbix-agent2
